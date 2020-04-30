@@ -59,6 +59,12 @@ namespace Microsoft.Identity.Test.LabInfrastructure
             AzureEnvironment = LabInfrastructure.AzureEnvironment.azureusgovernment
         };
 
+        public static UserQuery UsnatUserQuery => new UserQuery
+        {
+            UserType = LabInfrastructure.UserType.Cloud,
+            AzureEnvironment = LabInfrastructure.AzureEnvironment.azureusnat
+        };
+
         // generated code, re-generate or update manually if you change the members of this class !
         #region Equals and GetHashCode
         public override bool Equals(object obj)

@@ -64,6 +64,14 @@ namespace Microsoft.Identity.Test.Integration.SeleniumTests
         }
 
         [TestMethod]
+        public async Task Usnat_Interactive_AADAsync()
+        {
+            // Arrange
+            LabResponse labResponse = await LabUserHelper.GetUsnatUserAsync().ConfigureAwait(false);
+            await RunTestForUserAsync(labResponse, false).ConfigureAwait(false);
+        }
+
+        [TestMethod]
         public async Task Interactive_MsaUser_Async()
         {
             // Arrange

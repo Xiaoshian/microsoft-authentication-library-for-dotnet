@@ -101,6 +101,13 @@ namespace Microsoft.Identity.Test.LabInfrastructure
             return response;
         }
 
+        public static Task<LabResponse> GetUsnatUserAsync()
+        {
+            var response = GetLabUserDataAsync(UserQuery.UsnatUserQuery);
+            response.Result.User.AzureEnvironment = AzureEnvironment.azureusnat;
+            return response;
+        }
+
         public static Task<LabResponse> GetAdfsUserAsync(FederationProvider federationProvider, bool federated = true)
         {
             var query = UserQuery.PublicAadUserQuery;

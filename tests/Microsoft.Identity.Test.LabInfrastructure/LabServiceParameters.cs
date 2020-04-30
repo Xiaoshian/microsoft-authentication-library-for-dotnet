@@ -82,7 +82,8 @@ namespace Microsoft.Identity.Test.LabInfrastructure
         azurechinacloud,
         azuregermanycloud,
         azureppe,
-        azureusgovernment
+        azureusgovernment,
+        azureusnat
     }
 
     public enum SignInAudience
