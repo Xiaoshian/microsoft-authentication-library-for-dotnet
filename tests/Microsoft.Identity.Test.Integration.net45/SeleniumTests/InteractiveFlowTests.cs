@@ -67,7 +67,14 @@ namespace Microsoft.Identity.Test.Integration.SeleniumTests
         public async Task Usnat_Interactive_AADAsync()
         {
             // Arrange
-            LabResponse labResponse = await LabUserHelper.GetUsnatUserAsync().ConfigureAwait(false);
+            LabResponse labResponse = new LabResponse();
+            labResponse.User = new LabUser();
+            labResponse.App = new LabApp();
+            labResponse.Lab = new Lab();
+            labResponse.User.Upn = "IDLAB@usnmsidlab1.onms.eaglex.ic.gov";
+            labResponse.User.LabName = "usnmsidlab1";
+            labResponse.App.AppId = "388d9cb7-f98d-453d-81f6-9f106136b03c";
+            labResponse.Lab.Authority = "https://login.microsoftonline.eaglex.ic.gov/";
             await RunTestForUserAsync(labResponse, false).ConfigureAwait(false);
         }
 
@@ -199,7 +206,7 @@ namespace Microsoft.Identity.Test.Integration.SeleniumTests
                 pca = PublicClientApplicationBuilder
                     .Create(labResponse.App.AppId)
                     .WithRedirectUri(SeleniumWebUI.FindFreeLocalhostRedirectUri())
-                    .WithAuthority(labResponse.Lab.Authority + "common")
+                    .WithAuthority(labResponse.Lab.Authority + "common", false)
                     .WithTestLogging()
                     .Build();
             }
