@@ -145,8 +145,6 @@ namespace Microsoft.Identity.Test.Unit
                     app.ServiceBundle.PlatformProxy,
                     AuthorizationResult.FromUri(app.AppConfig.RedirectUri + "?code=some-code"));
 
-                harness.HttpManager.AddMockHandlerForTenantEndpointDiscovery(TestConstants.AuthorityCommonTenant);
-
                 //Initiates PKeyAuth challenge which will trigger an additional request sent to AAD to satisfy the PKeyAuth challenge
                 harness.HttpManager.AddMockHandler(
                     new MockHttpMessageHandler
@@ -179,12 +177,6 @@ namespace Microsoft.Identity.Test.Unit
             };
         }
 #endif
-
-        private static void MockInstanceDiscoveryAndOpenIdRequest(MockHttpManager mockHttpManager)
-        {
-            mockHttpManager.AddInstanceDiscoveryMockHandler();
-            mockHttpManager.AddMockHandlerForTenantEndpointDiscovery(TestConstants.AuthorityHomeTenant);
-        }
 
         private void ValidateOathClient(HttpResponseMessage httpResponseMessage, Action<Exception> validationHandler)
         {

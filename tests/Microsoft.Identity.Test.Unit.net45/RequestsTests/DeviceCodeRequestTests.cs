@@ -129,7 +129,7 @@ namespace Microsoft.Identity.Test.Unit.RequestsTests
         {
             using (var harness = CreateTestHarness())
             {
-                TestCommon.MockInstanceDiscoveryAndOpenIdRequest(harness.HttpManager);
+                harness.HttpManager.AddInstanceDiscoveryMockHandler();
                 var handler = new MockHttpMessageHandler()
                 {
                     ExpectedMethod = HttpMethod.Post,
@@ -346,7 +346,7 @@ namespace Microsoft.Identity.Test.Unit.RequestsTests
             }
             else
             {
-                TestCommon.MockInstanceDiscoveryAndOpenIdRequest(harness.HttpManager);
+                harness.HttpManager.AddInstanceDiscoveryMockHandler();
             }
 
             expectedScopes = new HashSet<string>();

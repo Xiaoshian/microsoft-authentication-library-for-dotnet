@@ -9,11 +9,11 @@ namespace Microsoft.Identity.Client.Instance
 {
     internal class AuthorityEndpoints
     {
-        public AuthorityEndpoints(string authorizationEndpoint, string tokenEndpoint, string selfSignedJwtAudience)
+        public AuthorityEndpoints(string authorizationEndpoint, string tokenEndpoint)
         {
             AuthorizationEndpoint = authorizationEndpoint;
             TokenEndpoint = tokenEndpoint;
-            SelfSignedJwtAudience = selfSignedJwtAudience;
+            SelfSignedJwtAudience = tokenEndpoint;
         }
 
         public string AuthorizationEndpoint { get; }

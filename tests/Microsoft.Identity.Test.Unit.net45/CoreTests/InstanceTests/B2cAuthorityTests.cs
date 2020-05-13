@@ -72,16 +72,6 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
 
                 var serviceBundle = ServiceBundle.Create(appConfig);
 
-                // add mock response for tenant endpoint discovery
-                httpManager.AddMockHandler(
-                    new MockHttpMessageHandler
-                    {
-                        ExpectedMethod = HttpMethod.Get,
-                        ExpectedUrl = "https://sometenantid.b2clogin.com/tfp/sometenantid/policy/v2.0/.well-known/openid-configuration",
-                        ResponseMessage = MockHelpers.CreateSuccessResponseMessage(
-                           File.ReadAllText(ResourceHelper.GetTestResourceRelativePath("OpenidConfiguration-B2CLogin.json")))
-                    });
-
                 Authority instance = Authority.CreateAuthority(
                     TestConstants.B2CLoginAuthority);
                 Assert.IsNotNull(instance);

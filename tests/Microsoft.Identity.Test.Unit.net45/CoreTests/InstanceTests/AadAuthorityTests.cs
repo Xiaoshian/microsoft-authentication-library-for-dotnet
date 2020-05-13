@@ -79,7 +79,7 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
                     instance.AuthorityInfo,
                     null,
                     new RequestContext(harness.ServiceBundle, Guid.NewGuid()))
-                    .GetAwaiter().GetResult();
+                    .GetAwaiter().GetResult();                
 
                 Assert.AreEqual(
                     "https://login.microsoftonline.com/6babcaad-604b-40ac-a9d7-9fd97c0b779f/oauth2/v2.0/authorize",
@@ -389,7 +389,7 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
             Authority authority = AuthorityTestHelper.CreateAuthorityFromUrl(
                 TestConstants.AuthorityCommonTenant);
 
-            Assert.AreEqual("common", authority.GetTenantId());
+            Assert.AreEqual("common", authority.TenantId);
 
             string updatedAuthority = authority.GetTenantedAuthority(TestConstants.Utid);
             Assert.AreEqual(TestConstants.AuthorityUtidTenant, updatedAuthority);
@@ -424,7 +424,6 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
                     app.ServiceBundle.PlatformProxy,
                     AuthorizationResult.FromUri(app.AppConfig.RedirectUri + "?code=some-code"));
 
-                harness.HttpManager.AddMockHandlerForTenantEndpointDiscovery(customPortAuthority);
                 harness.HttpManager.AddSuccessTokenResponseMockHandlerForPost(customPortAuthority);
                 harness.HttpManager.AddInstanceDiscoveryMockHandler(customPortAuthority);
 

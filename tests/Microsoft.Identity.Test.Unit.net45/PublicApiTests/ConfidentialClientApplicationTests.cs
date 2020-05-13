@@ -145,7 +145,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
                 var appCacheAccess = app.AppTokenCache.RecordAccess();
                 var userCacheAccess = app.UserTokenCache.RecordAccess();
 
-                httpManager.AddMockHandlerForTenantEndpointDiscovery(app.Authority);
                 httpManager.AddMockHandlerSuccessfulClientCredentialTokenResponseMessage();
 
                 var result = await app.AcquireTokenForClient(TestConstants.s_scope.ToArray()).ExecuteAsync(CancellationToken.None).ConfigureAwait(false);
@@ -175,7 +174,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
                                                               .WithHttpManager(httpManager)
                                                               .BuildConcrete();
 
-                httpManager.AddMockHandlerForTenantEndpointDiscovery(TestConstants.AuthorityUtidTenant);
                 httpManager.AddMockHandlerSuccessfulClientCredentialTokenResponseMessage();
 
                 var result = await app.AcquireTokenForClient(TestConstants.s_scope.ToArray())
@@ -184,7 +182,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
 
                 Assert.AreEqual(app.AppTokenCacheInternal.Accessor.GetAllAccessTokens().Single().TenantId, TestConstants.Utid);
 
-                httpManager.AddMockHandlerForTenantEndpointDiscovery(TestConstants.AuthorityUtid2Tenant);
                 httpManager.AddMockHandlerSuccessfulClientCredentialTokenResponseMessage();
 
                 result = await app.AcquireTokenForClient(TestConstants.s_scope.ToArray())
@@ -209,7 +206,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
                                                               .WithHttpManager(httpManager)
                                                               .BuildConcrete();
 
-                httpManager.AddMockHandlerForTenantEndpointDiscovery(TestConstants.AuthorityUtidTenant);
                 var handler = httpManager.AddMockHandlerSuccessfulClientCredentialTokenResponseMessage();
                 handler.ExpectedPostData = new Dictionary<string, string>()
                 {
@@ -238,7 +234,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
                                                               .WithHttpManager(httpManager)
                                                               .BuildConcrete();
 
-                httpManager.AddMockHandlerForTenantEndpointDiscovery(app.Authority);
                 httpManager.AddMockHandlerSuccessfulClientCredentialTokenResponseMessage();
                 var appCacheAccess = app.AppTokenCache.RecordAccess();
                 var userCacheAccess = app.UserTokenCache.RecordAccess();
@@ -304,12 +299,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
                                             {"rel", "http://schemas.microsoft.com/rel/trusted-realm"}
                     },
                     ResponseMessage = MockHelpers.CreateSuccessWebFingerResponseMessage("https://fs.contoso.com")
-                });
-
-                httpManager.AddMockHandler(new MockHttpMessageHandler
-                {
-                    ExpectedMethod = HttpMethod.Get,
-                    ResponseMessage = MockHelpers.CreateOpenIdConfigurationResponse(TestConstants.OnPremiseAuthority)
                 });
 
                 httpManager.AddMockHandlerSuccessfulClientCredentialTokenResponseMessage();
@@ -383,8 +372,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
             }
 
             var app = builder.BuildConcrete();
-
-            httpManager.AddMockHandlerForTenantEndpointDiscovery(app.Authority);
 
             for (int i = 0; i < tokenResponses; i++)
             {
@@ -603,8 +590,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
                                                               .WithHttpManager(httpManager)
                                                               .BuildConcrete();
 
-                httpManager.AddMockHandlerForTenantEndpointDiscovery(app.Authority);
-
                 var uri = await app
                     .GetAuthorizationRequestUrl(TestConstants.s_scope)
                     .WithLoginHint(TestConstants.DisplayableId)
@@ -672,8 +657,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
                                                               .WithHttpManager(httpManager)
                                                               .BuildConcrete();
 
-                httpManager.AddMockHandlerForTenantEndpointDiscovery(app.Authority);
-
                 try
                 {
                     var uri = await app
@@ -712,8 +695,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
                                                               .BuildConcrete();
                 var appCacheAccess = app.AppTokenCache.RecordAccess();
                 var userCacheAccess = app.UserTokenCache.RecordAccess();
-
-                httpManager.AddMockHandlerForTenantEndpointDiscovery(TestConstants.AuthorityGuestTenant);
 
                 const string CustomRedirectUri = "custom://redirect-uri";
                 Task<Uri> task = app
@@ -837,8 +818,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
 
                 _tokenCacheHelper.PopulateCache(app.AppTokenCacheInternal.Accessor);
 
-                httpManager.AddMockHandlerForTenantEndpointDiscovery(app.Authority);
-
                 // add mock response for successful token retrieval
                 const string TokenRetrievedFromNetCall = "token retrieved from network call";
                 httpManager.AddMockHandler(
@@ -889,7 +868,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
                 app.UserTokenCache.SetBeforeAccess(BeforeCacheAccess);
                 app.UserTokenCache.SetAfterAccess(AfterCacheAccess);
 
-                httpManager.AddMockHandlerForTenantEndpointDiscovery("https://" + TestConstants.ProductionPrefNetworkEnvironment + "/tfp/home/policy/", "p=policy");
                 httpManager.AddSuccessTokenResponseMockHandlerForPost("https://" + TestConstants.ProductionPrefNetworkEnvironment + "/tfp/home/policy/");
 
                 var result = await app
@@ -922,7 +900,6 @@ namespace Microsoft.Identity.Test.Unit.PublicApiTests
             using (var httpManager = new MockHttpManager())
             {
                 httpManager.AddInstanceDiscoveryMockHandler();
-                httpManager.AddMockHandlerForTenantEndpointDiscovery(TestConstants.AuthorityCommonTenant);
                 httpManager.AddSuccessTokenResponseMockHandlerForPost(TestConstants.AuthorityCommonTenant);
 
                 var app = ConfidentialClientApplicationBuilder

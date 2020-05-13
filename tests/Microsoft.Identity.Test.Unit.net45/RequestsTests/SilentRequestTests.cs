@@ -86,7 +86,7 @@ namespace Microsoft.Identity.Test.Unit.RequestsTests
                     harness.Cache.AddAccessTokenCacheItem(accessItem);
                 }
 
-                TestCommon.MockInstanceDiscoveryAndOpenIdRequest(harness.HttpManager);
+                harness.HttpManager.AddInstanceDiscoveryMockHandler();
 
                 harness.HttpManager.AddMockHandler(
                     new MockHttpMessageHandler()
@@ -128,7 +128,7 @@ namespace Microsoft.Identity.Test.Unit.RequestsTests
                     Account = new Account(TestConstants.HomeAccountId, TestConstants.DisplayableId, TestConstants.ProductionPrefCacheEnvironment),
                 };
 
-                TestCommon.MockInstanceDiscoveryAndOpenIdRequest(harness.HttpManager);
+                harness.HttpManager.AddInstanceDiscoveryMockHandler();                
 
                 harness.HttpManager.AddMockHandler(
                     new MockHttpMessageHandler()
